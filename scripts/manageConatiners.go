@@ -17,7 +17,7 @@ func CreateNewContainer(image, name string) {
 
 	cmd := &exec.Cmd{
 		Path:   pythonExecutable,
-		Args:   []string{pythonExecutable, "C:\\workspace\\go\\src\\server-spin-bot\\scripts\\create_container.py " + image + " " + name},
+		Args:   []string{pythonExecutable, "C:\\workspace\\go\\src\\server-spin-bot\\scripts\\create_container.py", image, name},
 		Stdout: os.Stdout,
 		Stderr: os.Stdout,
 	}

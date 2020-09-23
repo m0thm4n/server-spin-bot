@@ -8,16 +8,17 @@ LABEL maintainer="nathan.moritz@protonmail.com"
 ENV STEAMAPPID 298740
 ENV STEAMAPP space-Engineers
 ENV STEAMAPPDIR "${HOMEDIR}/${STEAMAPP}-didicated"
-ENV DLURL https://raw.githubusercontent.com/m0thm4n/server-spin-bot
+ENV DLURL https://github.com/m0thm4n/server-spin-bot
 
-RUN set -x \
-        && apt update \
-        && apt install -y --no-install-recommends --no-install-suggests \ 
-            wget=1.20.1-1.1 \
-        && wget "${DLURL}/tree/master/scripts/entry.sh" -O "${HOMEDIR}/entry.sh" \
-        && mkdir -p "${STEAMAPPDIR}" \
-        && chmod 755 "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}" \
-        && chown "${USER}:${USER}" "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}" \
+RUN set -x
+RUN apt update
+RUN apt upgrade -y
+RUN apt install -y --no-install-recommends --no-install-suggests wget=1.20.1-1.1
+RUN wget "${DLURL}/tree/master/scripts/entry.sh" -O "${HOMEDIR}/entry.sh"
+RUN mkdir -p "${STEAMAPPDIR}"
+RUN chmod 755 "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}"
+RUN chown "${USER}:${USER}" "${HOMEDIR}/entry.sh" "${STEAMAPPDIR}"
+RUN rm -rf /var/lib/apt/lists/*
 
 ENV PORT=27016 \
         QUERYPORT=27165 \
@@ -29,7 +30,7 @@ USER ${USER}
 
 WORKDIR ${HOMEDIR}
 
-CMD ["bash", "entry.sh"]
+ENTRYPOINT seserv
 
 # Expose ports
 EXPOSE 27016/udp \
