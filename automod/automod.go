@@ -6,7 +6,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/m0thm4n/server-spin/database"
+	"github.com/m0thm4n/server-spin-bot/database"
 
 	"github.com/bwmarrin/discordgo"
 )

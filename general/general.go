@@ -5,7 +5,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/m0thm4n/server-spin/automod"
+	"github.com/m0thm4n/server-spin-bot/automod"
 
 	"github.com/bwmarrin/discordgo"
 )

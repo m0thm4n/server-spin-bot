@@ -6,11 +6,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/m0thm4n/logger"
-	"github.com/m0thm4n/server-spin/automod"
-	"github.com/m0thm4n/server-spin/bot"
-	"github.com/m0thm4n/server-spin/commands"
-	"github.com/m0thm4n/server-spin/config"
+	"github.com/m0thm4n/server-spin-bot/automod"
+	"github.com/m0thm4n/server-spin-bot/bot"
+	"github.com/m0thm4n/server-spin-bot/commands"
+	"github.com/m0thm4n/server-spin-bot/config"
+	logger "github.com/m0thm4n/server-spin-bot/logger"
 
 	"github.com/bwmarrin/discordgo"
 )

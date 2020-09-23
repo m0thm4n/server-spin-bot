@@ -1,10 +1,16 @@
 package commands
 
 import (
+	"bufio"
+	"fmt"
+	"log"
+	"math/rand"
+	"os"
 	"strings"
 
-	"github.com/m0thm4n/server-spin/general"
-	"github.com/m0thm4n/server-spin/scripts"
+	"github.com/m0thm4n/server-spin-bot/file"
+	"github.com/m0thm4n/server-spin-bot/general"
+	"github.com/m0thm4n/server-spin-bot/scripts"
 
 	"time"
 
@@ -40,11 +46,43 @@ func ExecuteCommand(s *discordgo.Session, m *discordgo.Message, T0 time.Time) {
 		general.HandleReloadCommand(s, m)
 	case "purge":
 
+	case "addgame":
+		textFile := strings.Join(strings.Split(m.Content, " ")[1:], " ")
+		file.MakeFile("games.txt")
+		Games = append(Games, textFile)
+		file.WriteToFile("games.txt", Games)
+		Games[len(Games)-1] = ""
+	case "pick":
+		file, err := os.Open("games.txt")
+		if err != nil {
+			log.Fatalln(err)
+		}
+		scanner := bufio.NewScanner(file)
+
+		scanner.Split(bufio.ScanLines)
+
+		for scanner.Scan() {
+			line := scanner.Text()
+			Games = append(Games, line)
+		}
+
+		rand.Seed(time.Now().Unix())
+		game := fmt.Sprint("You are going to play ", Games[rand.Intn(len(Games))])
+		fmt.Println(game + "!")
+		_, _ = s.ChannelMessageSend(m.ChannelID, game+"!")
 	case "createserver":
 		image := strings.Join(strings.Split(m.Content, " ")[1:2], " ")
 		name := strings.Join(strings.Split(m.Content, " ")[2:3], " ")
 
 		scripts.CreateNewContainer(image, name)
+
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Server has been spun up with the image "+image+"!")
+	case "listcontainers":
+		output := scripts.ListContainers()
+
+		_, _ = s.ChannelMessageSend(m.ChannelID, output)
+
+	case "buildimage":
 	}
 }
 
