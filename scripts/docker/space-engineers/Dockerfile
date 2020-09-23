@@ -6,8 +6,8 @@ FROM cm2network/steamcmd:root
 LABEL maintainer="nathan.moritz@protonmail.com"
 
 ENV STEAMAPPID 298740
-ENV STEAMAPP space-Engineers
-ENV STEAMAPPDIR "${HOMEDIR}/${STEAMAPP}-didicated"
+ENV STEAMAPP space-engineers
+ENV STEAMAPPDIR "${HOMEDIR}/${STEAMAPP}-dedicated"
 ENV DLURL https://github.com/m0thm4n/server-spin-bot
 
 RUN set -x
@@ -30,7 +30,7 @@ USER ${USER}
 
 WORKDIR ${HOMEDIR}
 
-ENTRYPOINT seserv
+ENTRYPOINT "${HOMEDIR}/entry.sh"
 
 # Expose ports
 EXPOSE 27016/udp \
