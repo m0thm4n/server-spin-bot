@@ -73,15 +73,33 @@ func ExecuteCommand(s *discordgo.Session, m *discordgo.Message, T0 time.Time) {
 	case "createserver":
 		image := strings.Join(strings.Split(m.Content, " ")[1:2], " ")
 		name := strings.Join(strings.Split(m.Content, " ")[2:3], " ")
+		port := strings.Join(strings.Split(m.Content, " ")[3:4], " ")
 
-		scripts.CreateNewContainer(image, name)
+		scripts.CreateNewContainer(image, name, port)
 
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Server has been spun up with the image "+image+"!")
 	case "listcontainers":
-		output := scripts.ListContainers()
+		containers := scripts.ListContainers()
 
-		_, _ = s.ChannelMessageSend(m.ChannelID, output)
+		for _, container := range containers {
+			_, _ = s.ChannelMessageSend(m.ChannelID, container)
+		}
+	case "stopcontainer":
+		id := strings.Join(strings.Split(m.Content, " ")[1:2], " ")
 
+		scripts.StopContainer(id)
+
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Stopped container with the ID "+id+"!")
+	case "startcontainer":
+		id := strings.Join(strings.Split(m.Content, " ")[1:2], " ")
+
+		scripts.StartContainer(id)
+
+		_, _ = s.ChannelMessageSend(m.ChannelID, "Started container with the ID "+id+"!")
+	case "deletecontainer":
+		id := strings.Join(strings.Split(m.Content, " ")[1:2], " ")
+
+		scripts.DeleteContainer(id)
 	case "buildimage":
 	}
 }
