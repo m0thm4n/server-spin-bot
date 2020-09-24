@@ -34,6 +34,8 @@ func ExecuteCommand(s *discordgo.Session, m *discordgo.Message, T0 time.Time) {
 		general.HandleInfoCommand(s, m, T0)
 	case "ping":
 		general.HandlePingCommand(s, m)
+	case "help":
+		general.HandleHelpCommand(s, m)
 	case "play":
 		if !strings.EqualFold(m.Author.Username, "taft") {
 			HandleWrongPermissions(s, m, msg)
@@ -78,25 +80,25 @@ func ExecuteCommand(s *discordgo.Session, m *discordgo.Message, T0 time.Time) {
 		scripts.CreateNewContainer(image, name, port)
 
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Server has been spun up with the image "+image+"!")
-	case "listcontainers":
+	case "listservers":
 		containers := scripts.ListContainers()
 
 		for _, container := range containers {
 			_, _ = s.ChannelMessageSend(m.ChannelID, container)
 		}
-	case "stopcontainer":
+	case "stopserver":
 		id := strings.Join(strings.Split(m.Content, " ")[1:2], " ")
 
 		scripts.StopContainer(id)
 
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Stopped container with the ID "+id+"!")
-	case "startcontainer":
+	case "startserver":
 		id := strings.Join(strings.Split(m.Content, " ")[1:2], " ")
 
 		scripts.StartContainer(id)
 
 		_, _ = s.ChannelMessageSend(m.ChannelID, "Started container with the ID "+id+"!")
-	case "deletecontainer":
+	case "deleteserver":
 		id := strings.Join(strings.Split(m.Content, " ")[1:2], " ")
 
 		scripts.DeleteContainer(id)

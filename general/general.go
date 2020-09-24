@@ -22,7 +22,18 @@ func HandleInfoCommand(s *discordgo.Session, m *discordgo.Message, t0 time.Time)
 
 	channelName := channel.Name
 	message := "```txt\n%s\n%s\n%-16s%-20s\n%-16s%-20s\n%-16s%-20s```"
-	message = fmt.Sprintf(message, "AlfredBot Information", strings.Repeat("-", len("AlfredBot Information")), "ChannelID", m.ChannelID, "Channel Name", channelName, "Uptime", (t1.Sub(t0).String()))
+	message = fmt.Sprintf(message, "GameBot Information", strings.Repeat("-", len("GameBot Information")), "ChannelID", m.ChannelID, "Channel Name", channelName, "Uptime", (t1.Sub(t0).String()))
+	s.ChannelMessageSend(m.ChannelID, message)
+}
+
+func HandleHelpCommand(s *discordgo.Session, m *discordgo.Message) {
+	message := "```txt\n%s\n%s\n%-16s\t%-20s\n%-16s\t%-20s\n%-16s\t%-20s\n%-16s\t%-20s\n%-16s\t%-20s```"
+	message = fmt.Sprintf(message, "Help Information", strings.Repeat("-", len("Help Information")),
+		"Create a server", "!createserver <image you want the server to be> <name of server> <port for server>",
+		"Delete a server", "!deleteserver <id of server here>",
+		"List all servers", "!listservers",
+		"Start a server", "!startserver <id of server here>",
+		"Stop a server", "!stopserver <id of server here>")
 	s.ChannelMessageSend(m.ChannelID, message)
 }
 
